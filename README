@@ -1,5 +1,7 @@
 ﻿Welcome to Lean's  git source of OpenWrt and packages
 
+【注意：这是我fork用于修改自用的LEDE固件，Lean的原版固件请访问原Repo：https://github.com/coolsnowwolf/lede】
+
 中文：如何编译自己需要的 OpenWrt 固件
 
 注意：
