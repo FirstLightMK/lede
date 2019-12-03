@@ -63,41 +63,6 @@ jobs:
         run: |
           rm -f ./.config*
           touch ./.config
-
-          #
-          # ========================固件定制部分========================
-          # 
-
-          # 
-          # 如果不对本区块做出任何编辑, 则生成默认配置固件. 
-          # 
-
-          # 以下为定制化固件选项和说明:
-          #
-
-          #
-          # 有些插件/选项是默认开启的, 如果想要关闭, 请参照以下示例进行编写:
-          # 
-          #          =========================================
-          #         |  # 取消编译VMware镜像:                   |
-          #         |  cat >> .config <<EOF                   |
-          #         |  # CONFIG_VMDK_IMAGES is not set        |
-          #         |  EOF                                    |
-          #          =========================================
-          #
-
-          # 
-          # 以下是一些提前准备好的一些插件选项.
-          # 直接取消注释相应代码块即可应用. 不要取消注释代码块上的汉字说明.
-          # 如果不需要代码块里的某一项配置, 只需要删除相应行.
-          #
-          # 如果需要其他插件, 请按照示例自行添加.
-          # 注意, 只需添加依赖链顶端的包. 如果你需要插件 A, 同时 A 依赖 B, 即只需要添加 A.
-          # 
-          # 无论你想要对固件进行怎样的定制, 都需要且只需要修改 EOF 回环内的内容.
-          # 
-
-          # 编译x64固件:
           cat >> .config <<EOF
           CONFIG_MODULES=y
           CONFIG_HAVE_DOT_CONFIG=y
@@ -4035,7 +4000,7 @@ jobs:
           # CONFIG_PACKAGE_luci-app-cshark is not set
           CONFIG_PACKAGE_luci-app-ddns=y
           # CONFIG_PACKAGE_luci-app-diag-core is not set
-          # CONFIG_PACKAGE_luci-app-dnscrypt-proxy is not set
+          CONFIG_PACKAGE_luci-app-dnscrypt-proxy=y
           # CONFIG_PACKAGE_luci-app-dnsforwarder is not set
           # CONFIG_PACKAGE_luci-app-dnspod is not set
           # CONFIG_PACKAGE_luci-app-dump1090 is not set
@@ -4159,7 +4124,7 @@ jobs:
           #
           # CONFIG_PACKAGE_luci-lib-dracula is not set
           # CONFIG_PACKAGE_luci-lib-httpclient is not set
-          # CONFIG_PACKAGE_luci-lib-httpprotoutils is not set
+          CONFIG_PACKAGE_luci-lib-httpprotoutils=y
           CONFIG_PACKAGE_luci-lib-ip=y
           # CONFIG_PACKAGE_luci-lib-iptparser is not set
           # CONFIG_PACKAGE_luci-lib-jquery-1-4 is not set
@@ -4235,6 +4200,8 @@ jobs:
           # CONFIG_PACKAGE_luci-i18n-ddns-vi is not set
           CONFIG_PACKAGE_luci-i18n-ddns-zh-cn=y
           # CONFIG_PACKAGE_luci-i18n-ddns-zh-tw is not set
+          # CONFIG_PACKAGE_luci-i18n-dnscrypt-proxy-ja is not set
+          # CONFIG_PACKAGE_luci-i18n-dnscrypt-proxy-ru is not set
           CONFIG_PACKAGE_luci-i18n-filetransfer-zh-cn=y
           # CONFIG_PACKAGE_luci-i18n-firewall-ca is not set
           # CONFIG_PACKAGE_luci-i18n-firewall-cs is not set
@@ -4620,8 +4587,13 @@ jobs:
           # CONFIG_PACKAGE_ddns-scripts_nsupdate is not set
           # CONFIG_PACKAGE_ddns-scripts_route53-v1 is not set
           # CONFIG_PACKAGE_dhcp-forwarder is not set
-          # CONFIG_PACKAGE_dnscrypt-proxy is not set
-          # CONFIG_PACKAGE_dnscrypt-proxy-resolvers is not set
+          CONFIG_PACKAGE_dnscrypt-proxy=y
+
+          #
+          # Configuration
+          #
+          # CONFIG_DNSCRYPT_ENABLE_PLUGINS is not set
+          CONFIG_PACKAGE_dnscrypt-proxy-resolvers=y
           # CONFIG_PACKAGE_drill is not set
           # CONFIG_PACKAGE_hostip is not set
           # CONFIG_PACKAGE_idn is not set
@@ -5935,12 +5907,6 @@ jobs:
           # font-utils
           #
           # CONFIG_PACKAGE_fontconfig is not set
-          EOF
-
-          
-          # 
-          # ========================固件定制部分结束========================
-          # 
 
           sed -i 's/^[ \t]*//g' ./.config
           make defconfig
